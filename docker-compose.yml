@@ -1,0 +1,44 @@
+services:
+  app:
+    build: .
+    depends_on:
+      - db
+    ports:
+      - "${LOCAL_NODE_PORT}:${DOCKER_NODE_PORT}"
+    env_file: .env
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: "mysql://${DB_USERNAME}:${DB_PASSWORD}@db:${DOCKER_DB_PORT}/${DB_NAME}"
+      JWT_SECRET: ${JWT_SECRET}
+      CORS_ORIGIN: ${CORS_ORIGIN}
+    restart: always
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/app
+      - /usr/app/node_modules
+    networks:
+      - docker-network
+
+  db:
+    image: mariadb:10.4.14
+    container_name: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${LOCAL_DB_PORT}:${DOCKER_DB_PORT}"
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    networks:
+      - docker-network
+
+networks:
+  docker-network:
+    driver: bridge
+
+volumes:
+  mariadb-data:

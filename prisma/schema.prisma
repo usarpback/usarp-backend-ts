@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/prisma"
+}
+
+generator zod {
+  provider = "prisma-zod-generator"
+  output = "./zod"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id                      String         @id @default(uuid())
+  nomeCompleto            String
+  email                   String         @unique
+  senha                   String
+  genero                  Genero
+  dataNascimento          String
+  perfil                  Perfil
+  organizacao             String
+  tentativasLogin         Int            @default(0)
+  tentativasExclusao      Int            @default(0)
+  bloqueadoAte            DateTime?
+  tokenRedefinirSenha     String?        @db.VarChar(257)
+  expiraRedefinirSenha    DateTime?
+
+  projetosCriados         Projeto[]      @relation("ProjetosCriados")
+  brainstormingsCriados   Brainstorming[] @relation("BrainstormingsCriados")
+  participacoesProjeto    ProjetoUsuario[]
+  participacoesPorEmail   ProjetoUsuario[] @relation("ProjetoUsuarioPorEmail")
+}
+
+model Projeto {
+  id                    String              @id @default(uuid())
+  nomeProjeto           String              @unique
+  descricao             String?
+  criadorId             String
+  status                StatusProjeto       @default(NOVO)
+
+  criador               Usuario             @relation("ProjetosCriados", fields: [criadorId], references: [id], onDelete: Cascade)
+  membros               ProjetoUsuario[]
+  brainstormings        BrainstormingProjeto[]
+}
+
+model Brainstorming {
+  id                   String              @id @default(uuid())
+  criadorId            String
+  titulo               String
+  projetoRelacionado   String
+  data                 String
+  horario              String
+  historiasUsuario     String
+
+  criador              Usuario             @relation("BrainstormingsCriados", fields: [criadorId], references: [id], onDelete: Cascade)
+  projetos             BrainstormingProjeto[]
+}
+
+model ProjetoUsuario {
+  id               String     @id @default(uuid())
+  projetoId        String
+  membroId         String
+  nomeMembro       String
+  emailMembro      String
+  papelNoProjeto   PapelProjeto
+
+  projeto          Projeto    @relation(fields: [projetoId], references: [id], onDelete: Cascade)
+  membro           Usuario    @relation(fields: [membroId], references: [id])
+  membroPorEmail   Usuario    @relation("ProjetoUsuarioPorEmail", fields: [emailMembro], references: [email], onDelete: Cascade)
+
+  @@map("projeto_usuario")
+}
+
+model BrainstormingProjeto {
+  projetoId        String
+  brainstormingId  String
+
+  projeto          Projeto        @relation(fields: [projetoId], references: [id], onDelete: Cascade)
+  brainstorming    Brainstorming  @relation(fields: [brainstormingId], references: [id], onDelete: Cascade)
+
+  @@id([projetoId, brainstormingId])
+  @@map("brainstorming_projeto")
+}
+
+enum Genero {
+  FEMININO
+  MASCULINO
+  NAO_BINARIO
+  PREFERE_NAO_INFORMAR
+}
+
+enum Perfil {
+  ESTUDANTE_GRADUACAO
+  ESTUDANTE_POS_GRADUACAO
+  PROFESSOR
+  PROFISSIONAL_INDUSTRIA
+}
+
+enum StatusProjeto {
+  NOVO
+  DELETADO
+  ANTIGO
+}
+
+enum PapelProjeto {
+  MODERADOR
+  PARTICIPANTE
+}

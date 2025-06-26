@@ -1,0 +1,25 @@
+import { z } from 'zod';
+import { PerfilSchema } from '../enums/Perfil.schema';
+import { NestedEnumPerfilFilterObjectSchema } from './NestedEnumPerfilFilter.schema';
+
+import type { Prisma } from '../../../generated/prisma';
+
+const Schema: z.ZodType<Prisma.EnumPerfilFilter> = z
+  .object({
+    equals: z.lazy(() => PerfilSchema).optional(),
+    in: z
+      .union([z.lazy(() => PerfilSchema).array(), z.lazy(() => PerfilSchema)])
+      .optional(),
+    notIn: z
+      .union([z.lazy(() => PerfilSchema).array(), z.lazy(() => PerfilSchema)])
+      .optional(),
+    not: z
+      .union([
+        z.lazy(() => PerfilSchema),
+        z.lazy(() => NestedEnumPerfilFilterObjectSchema),
+      ])
+      .optional(),
+  })
+  .strict();
+
+export const EnumPerfilFilterObjectSchema = Schema;
