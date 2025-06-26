@@ -5,7 +5,9 @@ generator client {
 
 generator zod {
   provider = "prisma-zod-generator"
-  output = "./zod"
+  output   = "./zod"
+  recursiveStrategy = "depth-limit"
+  maxDepth = 2
 }
 
 datasource db {
@@ -28,9 +30,16 @@ model Usuario {
   tokenRedefinirSenha     String?        @db.VarChar(257)
   expiraRedefinirSenha    DateTime?
 
+  /// @Zod.Omit(input: true)
   projetosCriados         Projeto[]      @relation("ProjetosCriados")
+
+  /// @Zod.Omit(input: true)
   brainstormingsCriados   Brainstorming[] @relation("BrainstormingsCriados")
+
+  /// @Zod.Omit(input: true)
   participacoesProjeto    ProjetoUsuario[]
+
+  /// @Zod.Omit(input: true)
   participacoesPorEmail   ProjetoUsuario[] @relation("ProjetoUsuarioPorEmail")
 }
 
@@ -42,7 +51,11 @@ model Projeto {
   status                StatusProjeto       @default(NOVO)
 
   criador               Usuario             @relation("ProjetosCriados", fields: [criadorId], references: [id], onDelete: Cascade)
+
+  /// @Zod.Omit(input: true)
   membros               ProjetoUsuario[]
+
+  /// @Zod.Omit(input: true)
   brainstormings        BrainstormingProjeto[]
 }
 
@@ -56,6 +69,8 @@ model Brainstorming {
   historiasUsuario     String
 
   criador              Usuario             @relation("BrainstormingsCriados", fields: [criadorId], references: [id], onDelete: Cascade)
+
+  /// @Zod.Omit(input: true)
   projetos             BrainstormingProjeto[]
 }
 
@@ -68,7 +83,11 @@ model ProjetoUsuario {
   papelNoProjeto   PapelProjeto
 
   projeto          Projeto    @relation(fields: [projetoId], references: [id], onDelete: Cascade)
+
+  /// @Zod.Omit(input: true)
   membro           Usuario    @relation(fields: [membroId], references: [id])
+
+  /// @Zod.Omit(input: true)
   membroPorEmail   Usuario    @relation("ProjetoUsuarioPorEmail", fields: [emailMembro], references: [email], onDelete: Cascade)
 
   @@map("projeto_usuario")
@@ -78,7 +97,10 @@ model BrainstormingProjeto {
   projetoId        String
   brainstormingId  String
 
+  /// @Zod.Omit(input: true)
   projeto          Projeto        @relation(fields: [projetoId], references: [id], onDelete: Cascade)
+
+  /// @Zod.Omit(input: true)
   brainstorming    Brainstorming  @relation(fields: [brainstormingId], references: [id], onDelete: Cascade)
 
   @@id([projetoId, brainstormingId])

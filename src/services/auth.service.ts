@@ -1,10 +1,10 @@
 import { addMinutes, isAfter } from "date-fns";
 import { prisma } from "@/plugins/prisma";
+import { AuthenticatedUser } from "@/types/auth.type";
+import { userRepository } from "@/repositories/user.repository";
+import { User } from "@/types/user.type";
 import jwt from "jsonwebtoken";
 import bcrypt from 'bcrypt';
-import { AuthenticatedUser } from "@/types/auth.type";
-import { updateUserById } from "@/repositories/user.repository";
-import { User } from "@/types/user.type";
 
 type UserStatus = {
   status: string;
@@ -76,7 +76,7 @@ export async function getUserAttemptsStatus(user: User, providedPassword: string
   const attempts = (user.tentativasLogin ?? 0) + 1;
   const reachedMaxAttempts = attempts >= 3;
   if (reachedMaxAttempts) {
-    await updateUserById(user.id!, {
+    await userRepository.update(user.id!, {
       bloqueadoAte: addMinutes(new Date(), 10 * attempts),
       tentativasLogin: attempts
     });

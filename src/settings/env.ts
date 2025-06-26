@@ -8,8 +8,15 @@ const envSchema = z.object({
   PORT: z.string().default("3000").transform(Number),
   NODE_ENV: z.string().default("development"),
   JWT_EXPIRES_IN: z
-    .number()
-    .default(86400),
+    .string()
+    .default("86400")
+    .transform((value) => {
+      const number = parseInt(value, 10);
+      if (isNaN(number) || number < 1) {
+        throw new Error("JWT_EXPIRES_IN deve ser um número inteiro positivo");
+      }
+      return number;
+    }),
   JWT_ALGORITHM: z
     .string()
     .default("HS256")

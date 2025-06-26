@@ -1754,9 +1754,21 @@ export namespace Prisma {
   export type $UsuarioPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Usuario"
     objects: {
+      /**
+       * @Zod.Omit(input: true)
+       */
       projetosCriados: Prisma.$ProjetoPayload<ExtArgs>[]
+      /**
+       * @Zod.Omit(input: true)
+       */
       brainstormingsCriados: Prisma.$BrainstormingPayload<ExtArgs>[]
+      /**
+       * @Zod.Omit(input: true)
+       */
       participacoesProjeto: Prisma.$ProjetoUsuarioPayload<ExtArgs>[]
+      /**
+       * @Zod.Omit(input: true)
+       */
       participacoesPorEmail: Prisma.$ProjetoUsuarioPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -2929,7 +2941,13 @@ export namespace Prisma {
     name: "Projeto"
     objects: {
       criador: Prisma.$UsuarioPayload<ExtArgs>
+      /**
+       * @Zod.Omit(input: true)
+       */
       membros: Prisma.$ProjetoUsuarioPayload<ExtArgs>[]
+      /**
+       * @Zod.Omit(input: true)
+       */
       brainstormings: Prisma.$BrainstormingProjetoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -4065,6 +4083,9 @@ export namespace Prisma {
     name: "Brainstorming"
     objects: {
       criador: Prisma.$UsuarioPayload<ExtArgs>
+      /**
+       * @Zod.Omit(input: true)
+       */
       projetos: Prisma.$BrainstormingProjetoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -5176,7 +5197,13 @@ export namespace Prisma {
     name: "ProjetoUsuario"
     objects: {
       projeto: Prisma.$ProjetoPayload<ExtArgs>
+      /**
+       * @Zod.Omit(input: true)
+       */
       membro: Prisma.$UsuarioPayload<ExtArgs>
+      /**
+       * @Zod.Omit(input: true)
+       */
       membroPorEmail: Prisma.$UsuarioPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -6212,7 +6239,13 @@ export namespace Prisma {
   export type $BrainstormingProjetoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "BrainstormingProjeto"
     objects: {
+      /**
+       * @Zod.Omit(input: true)
+       */
       projeto: Prisma.$ProjetoPayload<ExtArgs>
+      /**
+       * @Zod.Omit(input: true)
+       */
       brainstorming: Prisma.$BrainstormingPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
