@@ -2,21 +2,21 @@ import { z } from "zod";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { addMinutes } from "date-fns";
 
-import { transport } from "@/mail";
-import { Logger } from "@/events/log";
+import { transport } from "@/mail/index.js";
+import { Logger } from "@/events/log.js";
 import {
   generateTokenForUser,
   getUserAttemptsStatus,
   getUserLockedStatus,
   hashPassword,
-} from "@/services/auth.service";
-import { userRepository } from "@/repositories/user.repository";
-import { User } from "@/types/user.type";
+} from "@/services/auth.service.js";
+import { userRepository } from "@/repositories/user.repository.js";
+import { User } from "@/types/user.type.js";
 import {
   forgotPasswordBodySchema,
   resetPasswordBodySchema,
   signInBodySchema,
-} from "@/schemas/auth.schema";
+} from "@/schemas/auth.schema.js";
 
 export async function signUp(request: FastifyRequest, reply: FastifyReply) {
   const { senha, ...data } = request.body as User;
@@ -28,7 +28,10 @@ export async function signUp(request: FastifyRequest, reply: FastifyReply) {
   }
 
   const hashedPassword = await hashPassword(senha);
-  const createdUser = await userRepository.create({ ...data, senha: hashedPassword });
+  const createdUser = await userRepository.create({
+    ...data,
+    senha: hashedPassword,
+  });
   if (!createdUser)
     return reply.status(400).send("Não foi possível criar o usuário.");
 
@@ -74,7 +77,7 @@ export async function signIn(request: FastifyRequest, reply: FastifyReply) {
 
 export async function forgotPassword(
   request: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
 ) {
   const { email } = request.body as z.infer<typeof forgotPasswordBodySchema>;
   if (!email)
@@ -122,7 +125,7 @@ export async function forgotPassword(
 
 export async function resetPassword(
   request: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
 ) {
   const { userId, token, novaSenha } = request.body as z.infer<
     typeof resetPasswordBodySchema
@@ -134,7 +137,7 @@ export async function resetPassword(
   const user = await userRepository.findById(userId);
   if (!user) {
     Logger.warn(
-      `Tentativa de resetar senha com userId não registrado: ${userId}`
+      `Tentativa de resetar senha com userId não registrado: ${userId}`,
     );
     return reply.status(400).send("Credenciais inválidas ou expiradas.");
   }

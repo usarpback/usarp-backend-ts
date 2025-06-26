@@ -1,6 +1,6 @@
 import fp from "fastify-plugin";
 import { FastifyInstance } from "fastify";
-import { PrismaClient } from '@prisma/generated/prisma'
+import { PrismaClient } from "@prisma/generated/prisma/client.js";
 
 export const prisma = new PrismaClient();
 

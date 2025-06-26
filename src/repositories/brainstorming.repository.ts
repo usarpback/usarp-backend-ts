@@ -1,5 +1,5 @@
-import { prisma } from "@/plugins/prisma";
-import { Brainstorming } from "@/types/brainstorming.type";
+import { prisma } from "@/plugins/prisma.js";
+import { Brainstorming } from "@/types/brainstorming.type.js";
 
 export const brainstormingRepository = {
   create: async (data: Brainstorming) => {
@@ -14,5 +14,5 @@ export const brainstormingRepository = {
   },
   findById: async () => {},
   update: async () => {},
-  delete: async () => {}
+  delete: async () => {},
 };

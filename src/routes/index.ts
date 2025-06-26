@@ -1,9 +1,10 @@
 import { FastifyInstance } from "fastify";
 
-import { loadAuthenticationRoutes } from "./auth.route";
-import { loadBrainstormingRoutes } from "./brainstorming.route";
-import { loadProjectRoutes } from "./project.route";
-import { loadUserRoutes } from "./user.route";
+import { loadAuthenticationRoutes } from "./auth.route.js";
+import { loadBrainstormingRoutes } from "./brainstorming.route.js";
+import { loadProjectRoutes } from "./project.route.js";
+import { loadUserRoutes } from "./user.route.js";
+import { FastifyTypedInstance } from "@/types/fastify.js";
 
 type RouteRegister = {
   prefix: string;
@@ -21,7 +22,7 @@ const routes: RouteRegister[] = [
   { prefix: "/users", route: loadUserRoutes },
 ];
 
-export async function registerAllRoutes(app: FastifyInstance) {
+export async function registerAllRoutes(app: FastifyTypedInstance) {
   for (const { prefix, route } of routes) {
     app.register(route, { prefix });
   }

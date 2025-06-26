@@ -13,8 +13,12 @@ const buildLogger = (level: LogLevel, message: string) => {
   const prefix = `[${level.toUpperCase()}]`;
   const colored = logColors[level](prefix + " " + message);
 
-  const output = level === "error" ? console.error :
-                 level === "warn" ? console.warn : console.log;
+  const output =
+    level === "error"
+      ? console.error
+      : level === "warn"
+        ? console.warn
+        : console.log;
   output(colored);
 };
 

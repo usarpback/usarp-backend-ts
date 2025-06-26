@@ -1,18 +1,11 @@
+datasource db {
+  url      = env("DATABASE_URL")
+  provider = "mysql"
+}
+
 generator client {
   provider = "prisma-client-js"
   output   = "./generated/prisma"
-}
-
-generator zod {
-  provider          = "prisma-zod-generator"
-  output            = "./zod"
-  recursiveStrategy = "depth-limit"
-  maxDepth          = 2
-}
-
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model Usuario {
@@ -30,16 +23,9 @@ model Usuario {
   tokenRedefinirSenha  String?   @db.VarChar(257)
   expiraRedefinirSenha DateTime?
 
-  /// @Zod.Omit(input: true)
-  projetosCriados Projeto[] @relation("ProjetosCriados")
-
-  /// @Zod.Omit(input: true)
-  brainstormingsCriados Brainstorming[] @relation("BrainstormingsCriados")
-
-  /// @Zod.Omit(input: true)
-  participacoesProjeto ProjetoUsuario[]
-
-  /// @Zod.Omit(input: true)
+  projetosCriados       Projeto[]        @relation("ProjetosCriados")
+  brainstormingsCriados Brainstorming[]  @relation("BrainstormingsCriados")
+  participacoesProjeto  ProjetoUsuario[]
   participacoesPorEmail ProjetoUsuario[] @relation("ProjetoUsuarioPorEmail")
 }
 
@@ -50,12 +36,8 @@ model Projeto {
   criadorId   String
   status      StatusProjeto @default(NOVO)
 
-  criador Usuario @relation("ProjetosCriados", fields: [criadorId], references: [id], onDelete: Cascade)
-
-  /// @Zod.Omit(input: true)
-  membros ProjetoUsuario[]
-
-  /// @Zod.Omit(input: true)
+  criador        Usuario                @relation("ProjetosCriados", fields: [criadorId], references: [id], onDelete: Cascade)
+  membros        ProjetoUsuario[]
   brainstormings BrainstormingProjeto[]
 }
 
@@ -68,9 +50,7 @@ model Brainstorming {
   horario            String
   historiasUsuario   String
 
-  criador Usuario @relation("BrainstormingsCriados", fields: [criadorId], references: [id], onDelete: Cascade)
-
-  /// @Zod.Omit(input: true)
+  criador  Usuario                @relation("BrainstormingsCriados", fields: [criadorId], references: [id], onDelete: Cascade)
   projetos BrainstormingProjeto[]
 }
 
@@ -82,12 +62,8 @@ model ProjetoUsuario {
   emailMembro    String
   papelNoProjeto PapelProjeto
 
-  projeto Projeto @relation(fields: [projetoId], references: [id], onDelete: Cascade)
-
-  /// @Zod.Omit(input: true)
-  membro Usuario @relation(fields: [membroId], references: [id])
-
-  /// @Zod.Omit(input: true)
+  projeto        Projeto @relation(fields: [projetoId], references: [id], onDelete: Cascade)
+  membro         Usuario @relation(fields: [membroId], references: [id])
   membroPorEmail Usuario @relation("ProjetoUsuarioPorEmail", fields: [emailMembro], references: [email], onDelete: Cascade)
 
   @@map("projeto_usuario")
@@ -97,10 +73,7 @@ model BrainstormingProjeto {
   projetoId       String
   brainstormingId String
 
-  /// @Zod.Omit(input: true)
-  projeto Projeto @relation(fields: [projetoId], references: [id], onDelete: Cascade)
-
-  /// @Zod.Omit(input: true)
+  projeto       Projeto       @relation(fields: [projetoId], references: [id], onDelete: Cascade)
   brainstorming Brainstorming @relation(fields: [brainstormingId], references: [id], onDelete: Cascade)
 
   @@id([projetoId, brainstormingId])

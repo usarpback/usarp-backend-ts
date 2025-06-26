@@ -1,10 +1,10 @@
-import { brainstormingRepository } from "@/repositories/brainstorming.repository";
+import { brainstormingRepository } from "@/repositories/brainstorming.repository.js";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { Brainstorming } from "@/types/brainstorming.type";
+import { Brainstorming } from "@/types/brainstorming.type.js";
 
 export async function getAllBrainstormings(
   _: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
 ) {
   const brainstormings = await brainstormingRepository.findAll();
   return reply.status(200).send(brainstormings);
@@ -12,7 +12,7 @@ export async function getAllBrainstormings(
 
 export async function createBrainstorming(
   request: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
 ) {
   const data = request.body as Brainstorming;
 

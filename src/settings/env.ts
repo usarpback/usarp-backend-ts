@@ -39,7 +39,7 @@ const envSchema = z.object({
   ALLOWED_ORIGINS: z
     .string()
     .default("")
-    .transform((value) => value.split(",").map(value => value.trim())),
+    .transform((value) => value.split(",").map((value) => value.trim())),
   ADMIN_KEY: z
     .string()
     .min(10, "ADMIN_KEY deve ter pelo menos 10 caracteres")

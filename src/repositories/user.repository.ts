@@ -1,11 +1,11 @@
-import { prisma } from "@/plugins/prisma"
-import { UpdateUser, User } from "@/types/user.type";
+import { prisma } from "@/plugins/prisma.js";
+import { UpdateUser, User } from "@/types/user.type.js";
 
 export const userRepository = {
   existsByEmail: async (email: string) => {
     const user = await prisma.usuario.findUnique({
       where: { email },
-      select: { id: true }
+      select: { id: true },
     });
     return !!user;
   },
@@ -22,13 +22,13 @@ export const userRepository = {
   },
   findById: async (userId: string) => {
     const user = await prisma.usuario.findUnique({
-      where: { id: userId }
+      where: { id: userId },
     });
     return user;
   },
   findByEmail: async (email: string) => {
     const user = await prisma.usuario.findUnique({
-      where: { email }
+      where: { email },
     });
     return user;
   },
@@ -38,7 +38,7 @@ export const userRepository = {
 
     const updatedUser = await prisma.usuario.update({
       where: { id },
-      data
+      data,
     });
     return updatedUser;
   },
@@ -47,8 +47,8 @@ export const userRepository = {
     if (!user) return null;
 
     const deletedUser = await prisma.usuario.delete({
-      where: { id }
+      where: { id },
     });
     return deletedUser;
-  }
+  },
 };

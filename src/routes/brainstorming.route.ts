@@ -1,14 +1,14 @@
-import { FastifyTypedInstance } from "../types/fastify";
-import { authenticate } from "../middlewares/auth.middleware";
+import { FastifyTypedInstance } from "../types/fastify.js";
+import { authenticate } from "../middlewares/auth.middleware.js";
 import {
   createBrainstorming,
   getAllBrainstormings,
-} from "@/controllers/brainstorming.controller";
+} from "@/controllers/brainstorming.controller.js";
 import {
   brainstormingCreateSchema,
   createBrainstormingResponseSchema,
   getAllBrainstormingsResponseSchema,
-} from "@/schemas/brainstorming.schema";
+} from "@/schemas/brainstorming.schema.js";
 
 export async function loadBrainstormingRoutes(app: FastifyTypedInstance) {
   app.get(
@@ -17,10 +17,11 @@ export async function loadBrainstormingRoutes(app: FastifyTypedInstance) {
       preHandler: [authenticate],
       schema: {
         tags: ["brainstorming"],
+        description: "Lista todos os brainstormings do usuário",
         response: getAllBrainstormingsResponseSchema,
       },
     },
-    getAllBrainstormings
+    getAllBrainstormings,
   );
 
   app.post(
@@ -29,10 +30,11 @@ export async function loadBrainstormingRoutes(app: FastifyTypedInstance) {
       preHandler: [authenticate],
       schema: {
         tags: ["brainstorming"],
+        description: "Cria um novo brainstorming",
         body: brainstormingCreateSchema,
         response: createBrainstormingResponseSchema,
       },
     },
-    createBrainstorming
+    createBrainstorming,
   );
 }

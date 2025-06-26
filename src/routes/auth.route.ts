@@ -1,4 +1,4 @@
-import { FastifyTypedInstance } from "../types/fastify";
+import { FastifyTypedInstance } from "../types/fastify.js";
 import {
   signUpResponseSchema,
   signUpBodySchema,
@@ -8,13 +8,13 @@ import {
   forgotPasswordResponseSchema,
   resetPasswordBodySchema,
   resetPasswordResponseSchema,
-} from "@/schemas/auth.schema";
+} from "@/schemas/auth.schema.js";
 import {
   forgotPassword,
   resetPassword,
   signIn,
   signUp,
-} from "../controllers/auth.controller";
+} from "../controllers/auth.controller.js";
 
 export async function loadAuthenticationRoutes(app: FastifyTypedInstance) {
   app.post(
@@ -27,7 +27,7 @@ export async function loadAuthenticationRoutes(app: FastifyTypedInstance) {
         response: signUpResponseSchema,
       },
     },
-    signUp
+    signUp,
   );
 
   app.post(
@@ -40,32 +40,32 @@ export async function loadAuthenticationRoutes(app: FastifyTypedInstance) {
         response: signInResponseSchema,
       },
     },
-    signIn
+    signIn,
   );
 
   app.post(
     "/forgot-password",
     {
       schema: {
-        tags: ["authentication"],
+        tags: ["autenticacao"],
         description: "Solicitação de recuperação de senha",
         body: forgotPasswordBodySchema,
         response: forgotPasswordResponseSchema,
       },
     },
-    forgotPassword
+    forgotPassword,
   );
 
   app.post(
     "/reset-password",
     {
       schema: {
-        tags: ["authentication"],
+        tags: ["autenticacao"],
         description: "Redefinição de senha",
         body: resetPasswordBodySchema,
         response: resetPasswordResponseSchema,
       },
     },
-    resetPassword
+    resetPassword,
   );
 }

@@ -8,16 +8,20 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS;
 
 export async function securityMiddleware(app: FastifyInstance) {
   app.register(fastifyCors, {
-      origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
-          return callback(null, true);
-        }
+    origin: (origin, callback) => {
+      if (
+        !origin ||
+        allowedOrigins.includes("*") ||
+        allowedOrigins.includes(origin)
+      ) {
+        return callback(null, true);
+      }
 
-        return callback(new Error('Origem não permitida!'), false);
-      },
-      methods: ["GET", "POST", "PUT", "DELETE"],
-      credentials: true,
-    });
+      return callback(new Error("Origem não permitida!"), false);
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  });
 
   app.register(fastifyHelmet, {
     hidePoweredBy: true,

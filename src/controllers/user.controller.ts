@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { userRepository } from "@/repositories/user.repository";
+import { userRepository } from "@/repositories/user.repository.js";
 import {
   changeUserPasswordBodySchema,
   changeUserPasswordParamsSchema,
@@ -7,9 +7,9 @@ import {
   deleteUserParamsSchema,
   getUserParamsSchema,
   updateUserParamsSchema,
-} from "@/schemas/user.schema";
-import { comparePassword, hashPassword } from "@/services/auth.service";
-import { UpdateUser } from "@/types/user.type";
+} from "@/schemas/user.schema.js";
+import { comparePassword, hashPassword } from "@/services/auth.service.js";
+import { UpdateUser } from "@/types/user.type.js";
 import { FastifyReply, FastifyRequest } from "fastify";
 
 export async function getAllUsers(_: FastifyRequest, reply: FastifyReply) {
@@ -39,7 +39,7 @@ export async function updateUser(request: FastifyRequest, reply: FastifyReply) {
 
 export async function changeUserPassword(
   request: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
 ) {
   const { id } = request.params as z.infer<
     typeof changeUserPasswordParamsSchema

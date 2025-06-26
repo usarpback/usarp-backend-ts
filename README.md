@@ -32,42 +32,42 @@ As rotas estão documentadas utilizando `@asteasolutions/zod-to-openapi`, com sc
 
 ### 🔐 Autenticação
 
-| Método | Rota                | Descrição                        |
-|--------|---------------------|----------------------------------|
-| POST   | `/auth/sign-in`     | Login com e-mail e senha         |
-| POST   | `/auth/sign-up`     | Registro de novo usuário         |
+| Método | Rota                    | Descrição                            |
+| ------ | ----------------------- | ------------------------------------ |
+| POST   | `/auth/sign-in`         | Login com e-mail e senha             |
+| POST   | `/auth/sign-up`         | Registro de novo usuário             |
 | POST   | `/auth/forgot-password` | Envia e-mail de recuperação de senha |
-| POST   | `/auth/reset-password`  | Redefinição de senha com token  |
+| POST   | `/auth/reset-password`  | Redefinição de senha com token       |
 
 ---
 
 ### 👤 Usuário
 
-| Método | Rota               | Descrição                              |
-|--------|--------------------|----------------------------------------|
-| GET    | `/users`           | Retorna dados do usuário autenticado   |
-| GET    | `/users/all`       | Retorna todos os usuários              |
-| PUT    | `/users`           | Atualiza dados do usuário              |
-| PATCH  | `/users/password`  | Atualiza senha do usuário              |
-| DELETE | `/users`           | Exclui a conta do usuário              |
+| Método | Rota              | Descrição                            |
+| ------ | ----------------- | ------------------------------------ |
+| GET    | `/users`          | Retorna dados do usuário autenticado |
+| GET    | `/users/all`      | Retorna todos os usuários            |
+| PUT    | `/users`          | Atualiza dados do usuário            |
+| PATCH  | `/users/password` | Atualiza senha do usuário            |
+| DELETE | `/users`          | Exclui a conta do usuário            |
 
 ---
 
 ### 💡 Brainstormings
 
-| Método | Rota                    | Descrição                            |
-|--------|-------------------------|--------------------------------------|
-| GET    | `/brainstormings`       | Lista brainstormings existentes      |
-| POST   | `/brainstormings/create`| Cria um novo brainstorming (autenticado) |
+| Método | Rota                     | Descrição                                |
+| ------ | ------------------------ | ---------------------------------------- |
+| GET    | `/brainstormings`        | Lista brainstormings existentes          |
+| POST   | `/brainstormings/create` | Cria um novo brainstorming (autenticado) |
 
 ---
 
 ### 📁 Projetos
 
-| Método | Rota                  | Descrição                            |
-|--------|-----------------------|--------------------------------------|
-| GET    | `/projects`           | Lista os projetos do usuário         |
-| POST   | `/projects/create`    | Cria um novo projeto (autenticado)   |
+| Método | Rota               | Descrição                          |
+| ------ | ------------------ | ---------------------------------- |
+| GET    | `/projects`        | Lista os projetos do usuário       |
+| POST   | `/projects/create` | Cria um novo projeto (autenticado) |
 
 ---
 

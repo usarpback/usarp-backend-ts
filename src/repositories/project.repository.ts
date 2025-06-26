@@ -1,5 +1,5 @@
-import { prisma } from "@/plugins/prisma";
-import { Project } from "@/types/project.type";
+import { prisma } from "@/plugins/prisma.js";
+import { Project } from "@/types/project.type.js";
 
 export const projectRepository = {
   create: async (data: Project) => {
@@ -14,7 +14,7 @@ export const projectRepository = {
   existsById: async (id: string) => {
     const project = await prisma.projeto.findUnique({
       where: { id },
-      select: { id: true }
+      select: { id: true },
     });
     return !!project;
   },

@@ -1,7 +1,6 @@
-import "fastify";
 import { FastifyRequest } from "fastify";
 import { JwtPayload } from "jsonwebtoken";
-import { PrismaClient } from '@prisma/generated/prisma';
+import { PrismaClient } from "@prisma/generated/prisma";
 import {
   FastifyBaseLogger,
   FastifyInstance,

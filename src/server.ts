@@ -10,18 +10,26 @@ import {
 import { fastifySwagger } from "@fastify/swagger";
 import { fastifySwaggerUi } from "@fastify/swagger-ui";
 
-import prismaPlugin from "@/plugins/prisma";
-import errorHandlerPlugin from "@/plugins/error-handler";
+import prismaPlugin from "@/plugins/prisma.js";
+import errorHandlerPlugin from "@/plugins/error-handler.js";
 
-import { securityMiddleware } from "@/middlewares/security.middleware";
-import { registerAllRoutes } from "@/routes";
+import { securityMiddleware } from "@/middlewares/security.middleware.js";
+import { registerAllRoutes } from "@/routes/index.js";
 
 const port = process.env.PORT || 3001;
 
 async function bootstrap() {
   const app = fastify({
-    logger: true,
-    bodyLimit: 1_000_000
+    logger: {
+      level: "debug",
+      transport: {
+        target: "pino-pretty",
+        options: {
+          colorize: true,
+        },
+      },
+    },
+    bodyLimit: 1_000_000,
   }).withTypeProvider<ZodTypeProvider>();
 
   app.register(securityMiddleware);
@@ -36,8 +44,10 @@ async function bootstrap() {
     openapi: {
       info: {
         title: "USARP API",
+        description: `A **USARP API** fornece endpoints RESTful para gerenciamento de usuários e projetos da plataforma USARP, com validações robustas e documentação OpenAPI.`,
         version: "1.0.0",
       },
+      servers: [],
     },
     transform: jsonSchemaTransform,
   });
@@ -55,7 +65,5 @@ bootstrap().catch((error) => {
   process.exit(1);
 });
 
-//COLOCAR DESCCRIÇÃO NAS ROTAS
-//PEGAR OS TIPOS DO PROPRIO PRISMA CLIENT E ME VIRAR, VAI DA CERTO!
 //TODO: VER UM JEITO DE CHAMAR SÓ UMA VEZ O AUTHENTICATE POR ROTA, DEIXAR MAIS MINIMO POSSÍVEL
 //TODO: VER UM JEITO DE UNIFICAR AS MENSAGENS DE ERRO PARA DEIXAR MAIS EXPRESSIVA

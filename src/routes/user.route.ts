@@ -1,12 +1,6 @@
-import { FastifyTypedInstance } from "../types/fastify";
-import { authenticate } from "../middlewares/auth.middleware";
-import {
-  changeUserPassword,
-  deleteUser,
-  getUser,
-  getAllUsers,
-  updateUser,
-} from "@/controllers/user.controller";
+import { z } from "zod";
+import { authenticate } from "../middlewares/auth.middleware.js";
+import { FastifyTypedInstance } from "@/types/fastify.js";
 import {
   changeUserPasswordBodySchema,
   changeUserPasswordParamsSchema,
@@ -20,7 +14,14 @@ import {
   updateUserBodySchema,
   updateUserParamsSchema,
   updateUserResponseSchema,
-} from "@/schemas/user.schema";
+} from "@/schemas/user.schema.js";
+import {
+  changeUserPassword,
+  deleteUser,
+  getAllUsers,
+  getUser,
+  updateUser,
+} from "@/controllers/user.controller.js";
 
 export async function loadUserRoutes(app: FastifyTypedInstance) {
   app.get(
@@ -33,7 +34,7 @@ export async function loadUserRoutes(app: FastifyTypedInstance) {
         response: getUsersResponseSchema,
       },
     },
-    getAllUsers
+    getAllUsers,
   );
 
   app.get(
@@ -47,7 +48,7 @@ export async function loadUserRoutes(app: FastifyTypedInstance) {
         response: getUserResponseSchema,
       },
     },
-    getUser
+    getUser,
   );
 
   app.put(
@@ -62,7 +63,7 @@ export async function loadUserRoutes(app: FastifyTypedInstance) {
         response: updateUserResponseSchema,
       },
     },
-    updateUser
+    updateUser,
   );
 
   app.patch(
@@ -77,7 +78,7 @@ export async function loadUserRoutes(app: FastifyTypedInstance) {
         response: changeUserPasswordResponseSchema,
       },
     },
-    changeUserPassword
+    changeUserPassword,
   );
 
   app.delete(
@@ -92,6 +93,6 @@ export async function loadUserRoutes(app: FastifyTypedInstance) {
         response: deleteUserResponseSchema,
       },
     },
-    deleteUser
+    deleteUser,
   );
 }

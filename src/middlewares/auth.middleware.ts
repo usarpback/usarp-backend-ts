@@ -1,9 +1,9 @@
-import { verifyUserToken } from "@/services/auth.service";
+import { verifyUserToken } from "@/services/auth.service.js";
 import { FastifyRequest, FastifyReply } from "fastify";
 
 export async function authenticate(
   request: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
 ) {
   const authHeader = request.headers.authorization;
 
