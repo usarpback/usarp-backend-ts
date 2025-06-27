@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 dotenv.config();
 
@@ -51,7 +51,7 @@ const parseResult = envSchema.safeParse(process.env);
 if (!parseResult.success) {
   console.error("❌ Erro na validação das variáveis de ambiente:\n");
 
-  for (const { message, path } of parseResult.error.errors) {
+  for (const { message, path } of parseResult.error.issues) {
     console.error(`  - ${path.join(".")}: ${message}`);
   }
 

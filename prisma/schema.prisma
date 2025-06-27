@@ -1,11 +1,12 @@
 datasource db {
+  provider = "postgresql"
   url      = env("DATABASE_URL")
-  provider = "mysql"
 }
 
 generator client {
   provider = "prisma-client-js"
   output   = "./generated/prisma"
+  previewFeatures = ["interactiveTransactions"]
 }
 
 model Usuario {
@@ -65,8 +66,6 @@ model ProjetoUsuario {
   projeto          Projeto    @relation(fields: [projetoId], references: [id], onDelete: Cascade)
   membro           Usuario    @relation(fields: [membroId], references: [id])
   membroPorEmail   Usuario    @relation("ProjetoUsuarioPorEmail", fields: [emailMembro], references: [email], onDelete: Cascade)
-
-  @@map("projeto_usuario")
 }
 
 model BrainstormingProjeto {
@@ -77,7 +76,6 @@ model BrainstormingProjeto {
   brainstorming    Brainstorming  @relation(fields: [brainstormingId], references: [id], onDelete: Cascade)
 
   @@id([projetoId, brainstormingId])
-  @@map("brainstorming_projeto")
 }
 
 enum Genero {

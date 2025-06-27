@@ -31,7 +31,7 @@ export function generateTokenForUser(user: AuthenticatedUser) {
 }
 
 export async function hashPassword(password: string) {
-  return await bcrypt.hash(password, process.env.SALT_ROUNDS);
+  return await bcrypt.hash(password, Number(process.env.SALT_ROUNDS));
 }
 
 export async function comparePassword(
