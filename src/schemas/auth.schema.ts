@@ -41,11 +41,13 @@ export const forgotPasswordResponseSchema = {
   400: z.string().describe("Retorna uma mensagem de erro."),
 };
 
-export const resetPasswordBodySchema = z.object({
-  userId: z.uuid(),
-  token: z.string(),
-  novaSenha: z.string().min(6),
-}).describe("Redefinição de senha.");
+export const resetPasswordBodySchema = z
+  .object({
+    userId: z.uuid(),
+    token: z.string(),
+    novaSenha: z.string().min(6),
+  })
+  .describe("Redefinição de senha.");
 export const resetPasswordResponseSchema = {
   200: z.string().describe("Retorna uma mensagem de sucesso."),
   400: z.string().describe("Retorna uma mensagem de erro."),
