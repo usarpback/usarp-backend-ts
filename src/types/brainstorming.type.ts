@@ -1,4 +1,3 @@
-import { z } from "zod";
-import { brainstormingCreateSchema } from "@/schemas/brainstorming.schema.js";
+import { Prisma } from "@prisma/generated/prisma/client.js";
 
-export type Brainstorming = z.infer<typeof brainstormingCreateSchema>;
+export type Brainstorming = Prisma.BrainstormingCreateInput;

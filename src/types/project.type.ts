@@ -1,4 +1,3 @@
-import { z } from "zod";
-import { createProjectSchema } from "@/schemas/project.schema.js";
+import { Prisma } from "@prisma/generated/prisma/client.js";
 
-export type Project = z.infer<typeof createProjectSchema>;
+export type Project = Prisma.ProjetoCreateInput;

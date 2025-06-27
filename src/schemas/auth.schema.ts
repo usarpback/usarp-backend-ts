@@ -45,9 +45,9 @@ export const resetPasswordBodySchema = z.object({
   userId: z.uuid(),
   token: z.string(),
   novaSenha: z.string().min(6),
-});
+}).describe("Redefinição de senha.");
 export const resetPasswordResponseSchema = {
-  200: z.string(),
-  400: z.string(),
-  404: z.string(),
+  200: z.string().describe("Retorna uma mensagem de sucesso."),
+  400: z.string().describe("Retorna uma mensagem de erro."),
+  404: z.string().describe("Retorna uma mensagem de erro."),
 };
