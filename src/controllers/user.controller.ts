@@ -1,15 +1,14 @@
-import { z } from "zod";
 import { userRepository } from "@/repositories/user.repository.js";
-import {
-  changeUserPasswordBodySchema,
-  changeUserPasswordParamsSchema,
-  deleteUserBodySchema,
-  deleteUserParamsSchema,
-  getUserParamsSchema,
-  updateUserParamsSchema,
-} from "@/schemas/user.schema.js";
 import { comparePassword, hashPassword } from "@/services/auth.service.js";
-import { UpdateUser } from "@/types/user.type.js";
+import {
+  ChangeUserPasswordBody,
+  ChangeUserPasswordParams,
+  DeleteUserBody,
+  DeleteUserParams,
+  GetUserParams,
+  UpdateUser,
+  UpdateUserParams,
+} from "@/types/user.type.js";
 import { FastifyReply, FastifyRequest } from "fastify";
 
 export async function getAllUsers(_: FastifyRequest, reply: FastifyReply) {
@@ -18,7 +17,7 @@ export async function getAllUsers(_: FastifyRequest, reply: FastifyReply) {
 }
 
 export async function getUser(request: FastifyRequest, reply: FastifyReply) {
-  const { id } = request.params as z.infer<typeof getUserParamsSchema>;
+  const { id } = request.params as GetUserParams;
 
   const user = await userRepository.findById(id);
   if (!user) return reply.status(404).send("Usuário não encontrado.");
@@ -27,7 +26,7 @@ export async function getUser(request: FastifyRequest, reply: FastifyReply) {
 }
 
 export async function updateUser(request: FastifyRequest, reply: FastifyReply) {
-  const { id } = request.params as z.infer<typeof updateUserParamsSchema>;
+  const { id } = request.params as UpdateUserParams;
   const updatedData = request.body as UpdateUser;
 
   const updatedUser = await userRepository.update(id, updatedData);
@@ -41,11 +40,9 @@ export async function changeUserPassword(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const { id } = request.params as z.infer<
-    typeof changeUserPasswordParamsSchema
-  >;
+  const { id } = request.params as ChangeUserPasswordParams;
   const { currentPassword, newPassword, confirmNewPassword } =
-    request.body as z.infer<typeof changeUserPasswordBodySchema>;
+    request.body as ChangeUserPasswordBody;
 
   if (newPassword !== confirmNewPassword)
     return reply.status(400).send("As novas senhas não coincidem.");
@@ -68,8 +65,8 @@ export async function changeUserPassword(
 }
 
 export async function deleteUser(request: FastifyRequest, reply: FastifyReply) {
-  const { id } = request.params as z.infer<typeof deleteUserParamsSchema>;
-  const { password } = request.body as z.infer<typeof deleteUserBodySchema>;
+  const { id } = request.params as DeleteUserParams;
+  const { password } = request.body as DeleteUserBody;
 
   const user = await userRepository.findById(id);
   if (!user) return reply.status(404).send("Usuário não encontrado.");

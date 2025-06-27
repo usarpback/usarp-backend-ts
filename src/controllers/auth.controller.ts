@@ -1,4 +1,3 @@
-import { z } from "zod";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { addMinutes } from "date-fns";
 
@@ -13,10 +12,10 @@ import {
 import { userRepository } from "@/repositories/user.repository.js";
 import { User } from "@/types/user.type.js";
 import {
-  forgotPasswordBodySchema,
-  resetPasswordBodySchema,
-  signInBodySchema,
-} from "@/schemas/auth.schema.js";
+  ForgotPasswordBody,
+  ResetPasswordBody,
+  SignInBody,
+} from "@/types/auth.type.js";
 
 export async function signUp(request: FastifyRequest, reply: FastifyReply) {
   const { senha, ...data } = request.body as User;
@@ -40,7 +39,7 @@ export async function signUp(request: FastifyRequest, reply: FastifyReply) {
 }
 
 export async function signIn(request: FastifyRequest, reply: FastifyReply) {
-  const { email, senha } = request.body as z.infer<typeof signInBodySchema>;
+  const { email, senha } = request.body as SignInBody;
 
   const user = await userRepository.findByEmail(email);
   if (!user) {
@@ -79,7 +78,7 @@ export async function forgotPassword(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const { email } = request.body as z.infer<typeof forgotPasswordBodySchema>;
+  const { email } = request.body as ForgotPasswordBody;
   if (!email)
     return reply.status(400).send("Credenciais inválidas ou expiradas.");
 
@@ -127,9 +126,7 @@ export async function resetPassword(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const { userId, token, novaSenha } = request.body as z.infer<
-    typeof resetPasswordBodySchema
-  >;
+  const { userId, token, novaSenha } = request.body as ResetPasswordBody;
 
   if (!userId || !token || !novaSenha)
     return reply.status(400).send("Credenciais inválidas ou expiradas.");
