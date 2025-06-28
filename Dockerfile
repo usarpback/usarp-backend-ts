@@ -1,4 +1,4 @@
-FROM node:20-alpine AS builder
+FROM node:24-alpine AS builder
 
 WORKDIR /usr/app
 
@@ -13,7 +13,7 @@ COPY . .
 # Gera os arquivos do Prisma
 RUN npx prisma generate
 
-FROM node:20-alpine
+FROM node:24-alpine
 
 WORKDIR /usr/app
 
